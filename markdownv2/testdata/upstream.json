@@ -1,0 +1,1137 @@
+[
+  {
+    "source": "🏟 🏟_abacaba",
+    "error": "Can't find end of Italic entity at byte offset 9"
+  },
+  {
+    "source": "🏟 🏟_abac * asd ",
+    "error": "Can't find end of Bold entity at byte offset 15"
+  },
+  {
+    "source": "🏟 🏟_abac * asd _",
+    "error": "Can't find end of Italic entity at byte offset 21"
+  },
+  {
+    "source": "🏟 🏟`",
+    "error": "Can't find end of Code entity at byte offset 9"
+  },
+  {
+    "source": "🏟 🏟```",
+    "error": "Can't find end of Pre entity at byte offset 9"
+  },
+  {
+    "source": "🏟 🏟```a",
+    "error": "Can't find end of Pre entity at byte offset 9"
+  },
+  {
+    "source": "🏟 🏟```a ",
+    "error": "Can't find end of PreCode entity at byte offset 9"
+  },
+  {
+    "source": "🏟 🏟__🏟 🏟_",
+    "error": "Can't find end of Italic entity at byte offset 20"
+  },
+  {
+    "source": "🏟 🏟_🏟 🏟__",
+    "error": "Can't find end of Underline entity at byte offset 19"
+  },
+  {
+    "source": "🏟 🏟```🏟 🏟`",
+    "error": "Can't find end of Code entity at byte offset 21"
+  },
+  {
+    "source": "🏟 🏟```🏟 🏟_",
+    "error": "Can't find end of PreCode entity at byte offset 9"
+  },
+  {
+    "source": "🏟 🏟```🏟 🏟\\`",
+    "error": "Can't find end of PreCode entity at byte offset 9"
+  },
+  {
+    "source": "[telegram\\.org](asd\\)",
+    "error": "Can't find end of a URL at byte offset 16"
+  },
+  {
+    "source": "[telegram\\.org](",
+    "error": "Can't find end of a URL at byte offset 16"
+  },
+  {
+    "source": "[telegram\\.org](asd",
+    "error": "Can't find end of a URL at byte offset 16"
+  },
+  {
+    "source": "🏟 🏟__🏟 _🏟___",
+    "error": "Can't find end of Italic entity at byte offset 23"
+  },
+  {
+    "source": "🏟 🏟__",
+    "error": "Can't find end of Underline entity at byte offset 9"
+  },
+  {
+    "source": "🏟 🏟||test\\|",
+    "error": "Can't find end of Spoiler entity at byte offset 9"
+  },
+  {
+    "source": "🏟 🏟!",
+    "error": "Character '!' is reserved and must be escaped with the preceding '\\'"
+  },
+  {
+    "source": "🏟 🏟>",
+    "error": "Character '>' is reserved and must be escaped with the preceding '\\'"
+  },
+  {
+    "source": "🏟 🏟![",
+    "error": "Can't find end of CustomEmoji entity at byte offset 9"
+  },
+  {
+    "source": "🏟 🏟![👍",
+    "error": "Can't find end of CustomEmoji entity at byte offset 9"
+  },
+  {
+    "source": "🏟 🏟![👍]",
+    "error": "The entity must contain a tg://emoji or tg://time URL"
+  },
+  {
+    "source": "🏟 🏟![👍](tg://emoji?id=1234",
+    "error": "Can't find end of a URL at byte offset 17"
+  },
+  {
+    "source": "🏟 🏟![👍](t://emoji?id=1234)",
+    "error": "Invalid tg://emoji or tg://time URL specified"
+  },
+  {
+    "source": "🏟 🏟![👍](tg:emojis?id=1234)",
+    "error": "Invalid tg://emoji or tg://time URL specified"
+  },
+  {
+    "source": "🏟 🏟![👍](tg://emoji#test)",
+    "error": "Invalid tg://emoji or tg://time URL specified"
+  },
+  {
+    "source": "🏟 🏟![👍](tg://emoji?test=1#&id=25)",
+    "error": "Invalid tg://emoji or tg://time URL specified"
+  },
+  {
+    "source": "🏟 🏟![👍](tg://emoji?test=1231&id=025)",
+    "error": "Invalid tg://emoji or tg://time URL specified"
+  },
+  {
+    "source": "🏟 🏟![👍](tg://time?id=1234",
+    "error": "Can't find end of a URL at byte offset 17"
+  },
+  {
+    "source": "🏟 🏟![👍](t://time?id=1234)",
+    "error": "Invalid tg://emoji or tg://time URL specified"
+  },
+  {
+    "source": "🏟 🏟![👍](tg:times?id=1234)",
+    "error": "Invalid tg://emoji or tg://time URL specified"
+  },
+  {
+    "source": "🏟 🏟![👍](tg://time#test)",
+    "error": "Invalid tg://emoji or tg://time URL specified"
+  },
+  {
+    "source": "🏟 🏟![👍](tg://time?test=1#&date=25)",
+    "error": "Invalid tg://emoji or tg://time URL specified"
+  },
+  {
+    "source": "🏟 🏟![👍](tg://time?test=1231&date=025)",
+    "error": "Invalid tg://emoji or tg://time URL specified"
+  },
+  {
+    "source": ">*b\n>ld \n>bo\nld*\nasd\ndef",
+    "error": "Can't find end of Bold entity at byte offset 1"
+  },
+  {
+    "source": ">\n*a*>2",
+    "error": "Character '>' is reserved and must be escaped with the preceding '\\'"
+  },
+  {
+    "source": ">asd\n>q||e||w||\n||asdad",
+    "error": "Can't find end of Spoiler entity at byte offset 16"
+  },
+  {
+    "source": ">asd\n>q||ew\n||asdad",
+    "error": "Can't find end of Spoiler entity at byte offset 7"
+  },
+  {
+    "source": ">asd\n>q||e||w__\n||asdad",
+    "error": "Can't find end of Underline entity at byte offset 13"
+  },
+  {
+    "source": ">asd\n>q||e||w||a\n||asdad",
+    "error": "Can't find end of Spoiler entity at byte offset 13"
+  },
+  {
+    "source": "",
+    "text": "",
+    "entities": []
+  },
+  {
+    "source": "\\\\",
+    "text": "\\",
+    "entities": []
+  },
+  {
+    "source": "\\\\\\",
+    "text": "\\\\",
+    "entities": []
+  },
+  {
+    "source": "\\\\\\\\\\_\\*\\`",
+    "text": "\\\\_*`",
+    "entities": []
+  },
+  {
+    "source": "➡️ ➡️",
+    "text": "➡️ ➡️",
+    "entities": []
+  },
+  {
+    "source": "🏟 🏟``",
+    "text": "🏟 🏟",
+    "entities": []
+  },
+  {
+    "source": "🏟 🏟_abac \\* asd _",
+    "text": "🏟 🏟abac * asd ",
+    "entities": [
+      {
+        "type": "italic",
+        "offset": 5,
+        "length": 11
+      }
+    ]
+  },
+  {
+    "source": "🏟 \\.🏟_🏟\\. 🏟_",
+    "text": "🏟 .🏟🏟. 🏟",
+    "entities": [
+      {
+        "type": "italic",
+        "offset": 6,
+        "length": 6
+      }
+    ]
+  },
+  {
+    "source": "\\\\\\a\\b\\c\\d\\e\\f\\1\\2\\3\\4\\➡️\\",
+    "text": "\\abcdef1234\\➡️\\",
+    "entities": []
+  },
+  {
+    "source": "➡️ ➡️_➡️ ➡️_",
+    "text": "➡️ ➡️➡️ ➡️",
+    "entities": [
+      {
+        "type": "italic",
+        "offset": 5,
+        "length": 5
+      }
+    ]
+  },
+  {
+    "source": "➡️ ➡️_➡️ ➡️_*➡️ ➡️*",
+    "text": "➡️ ➡️➡️ ➡️➡️ ➡️",
+    "entities": [
+      {
+        "type": "italic",
+        "offset": 5,
+        "length": 5
+      },
+      {
+        "type": "bold",
+        "offset": 10,
+        "length": 5
+      }
+    ]
+  },
+  {
+    "source": "🏟 🏟_🏟 \\.🏟_",
+    "text": "🏟 🏟🏟 .🏟",
+    "entities": [
+      {
+        "type": "italic",
+        "offset": 5,
+        "length": 6
+      }
+    ]
+  },
+  {
+    "source": "🏟 🏟_🏟 *🏟*_",
+    "text": "🏟 🏟🏟 🏟",
+    "entities": [
+      {
+        "type": "italic",
+        "offset": 5,
+        "length": 5
+      },
+      {
+        "type": "bold",
+        "offset": 8,
+        "length": 2
+      }
+    ]
+  },
+  {
+    "source": "🏟 🏟_🏟 __🏟___",
+    "text": "🏟 🏟🏟 🏟",
+    "entities": [
+      {
+        "type": "italic",
+        "offset": 5,
+        "length": 5
+      },
+      {
+        "type": "underline",
+        "offset": 8,
+        "length": 2
+      }
+    ]
+  },
+  {
+    "source": "🏟 🏟__🏟 _🏟_ __",
+    "text": "🏟 🏟🏟 🏟 ",
+    "entities": [
+      {
+        "type": "underline",
+        "offset": 5,
+        "length": 6
+      },
+      {
+        "type": "italic",
+        "offset": 8,
+        "length": 2
+      }
+    ]
+  },
+  {
+    "source": "🏟 🏟__🏟 _🏟_\\___",
+    "text": "🏟 🏟🏟 🏟_",
+    "entities": [
+      {
+        "type": "underline",
+        "offset": 5,
+        "length": 6
+      },
+      {
+        "type": "italic",
+        "offset": 8,
+        "length": 2
+      }
+    ]
+  },
+  {
+    "source": "🏟 🏟`🏟 🏟```",
+    "text": "🏟 🏟🏟 🏟",
+    "entities": [
+      {
+        "type": "code",
+        "offset": 5,
+        "length": 5
+      }
+    ]
+  },
+  {
+    "source": "🏟 🏟```🏟 🏟```",
+    "text": "🏟 🏟 🏟",
+    "entities": [
+      {
+        "type": "pre",
+        "offset": 5,
+        "length": 3,
+        "language": "🏟"
+      }
+    ]
+  },
+  {
+    "source": "🏟 🏟```🏟\n🏟```",
+    "text": "🏟 🏟🏟",
+    "entities": [
+      {
+        "type": "pre",
+        "offset": 5,
+        "length": 2,
+        "language": "🏟"
+      }
+    ]
+  },
+  {
+    "source": "🏟 🏟```🏟\r🏟```",
+    "text": "🏟 🏟🏟",
+    "entities": [
+      {
+        "type": "pre",
+        "offset": 5,
+        "length": 2,
+        "language": "🏟"
+      }
+    ]
+  },
+  {
+    "source": "🏟 🏟```🏟\n\r🏟```",
+    "text": "🏟 🏟🏟",
+    "entities": [
+      {
+        "type": "pre",
+        "offset": 5,
+        "length": 2,
+        "language": "🏟"
+      }
+    ]
+  },
+  {
+    "source": "🏟 🏟```🏟\r\n🏟```",
+    "text": "🏟 🏟🏟",
+    "entities": [
+      {
+        "type": "pre",
+        "offset": 5,
+        "length": 2,
+        "language": "🏟"
+      }
+    ]
+  },
+  {
+    "source": "🏟 🏟```🏟\n\n🏟```",
+    "text": "🏟 🏟\n🏟",
+    "entities": [
+      {
+        "type": "pre",
+        "offset": 5,
+        "length": 3,
+        "language": "🏟"
+      }
+    ]
+  },
+  {
+    "source": "🏟 🏟```🏟\r\r🏟```",
+    "text": "🏟 🏟\r🏟",
+    "entities": [
+      {
+        "type": "pre",
+        "offset": 5,
+        "length": 3,
+        "language": "🏟"
+      }
+    ]
+  },
+  {
+    "source": "🏟 🏟```🏟 \\\\\\`🏟```",
+    "text": "🏟 🏟 \\`🏟",
+    "entities": [
+      {
+        "type": "pre",
+        "offset": 5,
+        "length": 5,
+        "language": "🏟"
+      }
+    ]
+  },
+  {
+    "source": "🏟 🏟**",
+    "text": "🏟 🏟",
+    "entities": []
+  },
+  {
+    "source": "||test||",
+    "text": "test",
+    "entities": [
+      {
+        "type": "spoiler",
+        "offset": 0,
+        "length": 4
+      }
+    ]
+  },
+  {
+    "source": "🏟 🏟``",
+    "text": "🏟 🏟",
+    "entities": []
+  },
+  {
+    "source": "🏟 🏟``````",
+    "text": "🏟 🏟",
+    "entities": []
+  },
+  {
+    "source": "🏟 🏟____",
+    "text": "🏟 🏟",
+    "entities": []
+  },
+  {
+    "source": "`_* *_`__*` `*__",
+    "text": "_* *_ ",
+    "entities": [
+      {
+        "type": "code",
+        "offset": 0,
+        "length": 5
+      },
+      {
+        "type": "code",
+        "offset": 5,
+        "length": 1
+      },
+      {
+        "type": "bold",
+        "offset": 5,
+        "length": 1
+      },
+      {
+        "type": "underline",
+        "offset": 5,
+        "length": 1
+      }
+    ]
+  },
+  {
+    "source": "_* * ` `_",
+    "text": "   ",
+    "entities": [
+      {
+        "type": "italic",
+        "offset": 0,
+        "length": 3
+      },
+      {
+        "type": "bold",
+        "offset": 0,
+        "length": 1
+      },
+      {
+        "type": "code",
+        "offset": 2,
+        "length": 1
+      }
+    ]
+  },
+  {
+    "source": "[](telegram.org)",
+    "text": "",
+    "entities": []
+  },
+  {
+    "source": "[ ](telegram.org)",
+    "text": " ",
+    "entities": [
+      {
+        "type": "text_link",
+        "offset": 0,
+        "length": 1,
+        "url": "http://telegram.org/"
+      }
+    ]
+  },
+  {
+    "source": "[ ](as)",
+    "text": " ",
+    "entities": []
+  },
+  {
+    "source": "[telegram\\.org]",
+    "text": "telegram.org",
+    "entities": [
+      {
+        "type": "text_link",
+        "offset": 0,
+        "length": 12,
+        "url": "http://telegram.org/"
+      }
+    ]
+  },
+  {
+    "source": "[telegram\\.org]a",
+    "text": "telegram.orga",
+    "entities": [
+      {
+        "type": "text_link",
+        "offset": 0,
+        "length": 12,
+        "url": "http://telegram.org/"
+      }
+    ]
+  },
+  {
+    "source": "[telegram\\.org](telegram.dog)",
+    "text": "telegram.org",
+    "entities": [
+      {
+        "type": "text_link",
+        "offset": 0,
+        "length": 12,
+        "url": "http://telegram.dog/"
+      }
+    ]
+  },
+  {
+    "source": "[telegram\\.org](https://telegram.dog?)",
+    "text": "telegram.org",
+    "entities": [
+      {
+        "type": "text_link",
+        "offset": 0,
+        "length": 12,
+        "url": "https://telegram.dog/?"
+      }
+    ]
+  },
+  {
+    "source": "[telegram\\.org](https://telegram.dog?\\\\\\()",
+    "text": "telegram.org",
+    "entities": [
+      {
+        "type": "text_link",
+        "offset": 0,
+        "length": 12,
+        "url": "https://telegram.dog/?\\("
+      }
+    ]
+  },
+  {
+    "source": "[telegram\\.org]()",
+    "text": "telegram.org",
+    "entities": []
+  },
+  {
+    "source": "[telegram\\.org](asdasd)",
+    "text": "telegram.org",
+    "entities": []
+  },
+  {
+    "source": "[telegram\\.org](tg:user?id=123456)",
+    "text": "telegram.org",
+    "entities": [
+      {
+        "type": "text_mention",
+        "offset": 0,
+        "length": 12,
+        "user_id": 123456
+      }
+    ]
+  },
+  {
+    "source": "🏟 🏟![👍](TG://EMoJI/?test=1231&id=25#id=32)a",
+    "text": "🏟 🏟👍a",
+    "entities": [
+      {
+        "type": "custom_emoji",
+        "offset": 5,
+        "length": 2,
+        "custom_emoji_id": "25"
+      }
+    ]
+  },
+  {
+    "source": "🏟 🏟![👍](TG://TiME/?test=1231&unix=25#unix=32)a",
+    "text": "🏟 🏟👍a",
+    "entities": [
+      {
+        "type": "date_time",
+        "offset": 5,
+        "length": 2,
+        "unix_time": 25,
+        "date_time_format": ""
+      }
+    ]
+  },
+  {
+    "source": "🏟 🏟![👍](TG://TiME/?test=1231&format=R&unix=25#unix=32)a",
+    "text": "🏟 🏟👍a",
+    "entities": [
+      {
+        "type": "date_time",
+        "offset": 5,
+        "length": 2,
+        "unix_time": 25,
+        "date_time_format": "r"
+      }
+    ]
+  },
+  {
+    "source": "🏟 🏟![👍](TG://TiME/?test=1231&format=dt&unix=25#unix=32)a",
+    "text": "🏟 🏟👍a",
+    "entities": [
+      {
+        "type": "date_time",
+        "offset": 5,
+        "length": 2,
+        "unix_time": 25,
+        "date_time_format": "td"
+      }
+    ]
+  },
+  {
+    "source": "🏟 🏟![👍](TG://TiME/?test=1231&format=DT&unix=25#unix=32)a",
+    "text": "🏟 🏟👍a",
+    "entities": [
+      {
+        "type": "date_time",
+        "offset": 5,
+        "length": 2,
+        "unix_time": 25,
+        "date_time_format": "TD"
+      }
+    ]
+  },
+  {
+    "source": "🏟 🏟![👍](TG://TiME/?test=1231&format=w&unix=25#unix=32)a",
+    "text": "🏟 🏟👍a",
+    "entities": [
+      {
+        "type": "date_time",
+        "offset": 5,
+        "length": 2,
+        "unix_time": 25,
+        "date_time_format": "w"
+      }
+    ]
+  },
+  {
+    "source": "🏟 🏟![👍](TG://TiME/?test=1231&format=Wt&unix=25#unix=32)a",
+    "text": "🏟 🏟👍a",
+    "entities": [
+      {
+        "type": "date_time",
+        "offset": 5,
+        "length": 2,
+        "unix_time": 25,
+        "date_time_format": "tw"
+      }
+    ]
+  },
+  {
+    "source": "> \n> \n>",
+    "text": " \n \n",
+    "entities": [
+      {
+        "type": "blockquote",
+        "offset": 0,
+        "length": 4
+      }
+    ]
+  },
+  {
+    "source": "> \\>\n \\> \n>",
+    "text": " >\n > \n",
+    "entities": [
+      {
+        "type": "blockquote",
+        "offset": 0,
+        "length": 3
+      }
+    ]
+  },
+  {
+    "source": "abc\n> \n> \n>\ndef",
+    "text": "abc\n \n \n\ndef",
+    "entities": [
+      {
+        "type": "blockquote",
+        "offset": 4,
+        "length": 5
+      }
+    ]
+  },
+  {
+    "source": ">",
+    "text": "",
+    "entities": []
+  },
+  {
+    "source": ">a",
+    "text": "a",
+    "entities": [
+      {
+        "type": "blockquote",
+        "offset": 0,
+        "length": 1
+      }
+    ]
+  },
+  {
+    "source": "\r>a",
+    "text": "\ra",
+    "entities": [
+      {
+        "type": "blockquote",
+        "offset": 1,
+        "length": 1
+      }
+    ]
+  },
+  {
+    "source": "\r\r>\r\ra\r\n\r",
+    "text": "\r\r\r\ra\r\n\r",
+    "entities": [
+      {
+        "type": "blockquote",
+        "offset": 2,
+        "length": 5
+      }
+    ]
+  },
+  {
+    "source": ">*bold _italic bold ~italic bold strikethrough ||italic bold strikethrough spoiler||~ __underline italic bold___ bold*",
+    "text": "bold italic bold italic bold strikethrough italic bold strikethrough spoiler underline italic bold bold",
+    "entities": [
+      {
+        "type": "blockquote",
+        "offset": 0,
+        "length": 103
+      },
+      {
+        "type": "bold",
+        "offset": 0,
+        "length": 103
+      },
+      {
+        "type": "italic",
+        "offset": 5,
+        "length": 93
+      },
+      {
+        "type": "strikethrough",
+        "offset": 17,
+        "length": 59
+      },
+      {
+        "type": "spoiler",
+        "offset": 43,
+        "length": 33
+      },
+      {
+        "type": "underline",
+        "offset": 77,
+        "length": 21
+      }
+    ]
+  },
+  {
+    "source": ">*b\n>ld \n>bo\n>ld*\nasd\ndef",
+    "text": "b\nld \nbo\nld\nasd\ndef",
+    "entities": [
+      {
+        "type": "blockquote",
+        "offset": 0,
+        "length": 12
+      },
+      {
+        "type": "bold",
+        "offset": 0,
+        "length": 11
+      }
+    ]
+  },
+  {
+    "source": "*a\n>b\n>ld \n>bo\n>ld\nasd*\ndef",
+    "text": "a\nb\nld \nbo\nld\nasd\ndef",
+    "entities": [
+      {
+        "type": "bold",
+        "offset": 0,
+        "length": 17
+      },
+      {
+        "type": "blockquote",
+        "offset": 2,
+        "length": 12
+      }
+    ]
+  },
+  {
+    "source": ">`b\n>ld \n>bo\nld`\n>asd\ndef",
+    "text": "b\n>ld \n>bo\nld\nasd\ndef",
+    "entities": [
+      {
+        "type": "blockquote",
+        "offset": 0,
+        "length": 18
+      },
+      {
+        "type": "code",
+        "offset": 0,
+        "length": 13
+      }
+    ]
+  },
+  {
+    "source": "`>b\n>ld \n>bo\nld`\n>asd\ndef",
+    "text": ">b\n>ld \n>bo\nld\nasd\ndef",
+    "entities": [
+      {
+        "type": "code",
+        "offset": 0,
+        "length": 14
+      },
+      {
+        "type": "blockquote",
+        "offset": 15,
+        "length": 4
+      }
+    ]
+  },
+  {
+    "source": ">1",
+    "text": "1",
+    "entities": [
+      {
+        "type": "blockquote",
+        "offset": 0,
+        "length": 1
+      }
+    ]
+  },
+  {
+    "source": ">\n1",
+    "text": "\n1",
+    "entities": [
+      {
+        "type": "blockquote",
+        "offset": 0,
+        "length": 1
+      }
+    ]
+  },
+  {
+    "source": ">\n\r>2",
+    "text": "\n\r2",
+    "entities": [
+      {
+        "type": "blockquote",
+        "offset": 0,
+        "length": 1
+      },
+      {
+        "type": "blockquote",
+        "offset": 2,
+        "length": 1
+      }
+    ]
+  },
+  {
+    "source": ">\n**>2",
+    "text": "\n2",
+    "entities": [
+      {
+        "type": "blockquote",
+        "offset": 0,
+        "length": 1
+      },
+      {
+        "type": "blockquote",
+        "offset": 1,
+        "length": 1
+      }
+    ]
+  },
+  {
+    "source": ">**\n>2",
+    "text": "\n2",
+    "entities": [
+      {
+        "type": "blockquote",
+        "offset": 0,
+        "length": 2
+      }
+    ]
+  },
+  {
+    "source": ">*abcd*",
+    "text": "abcd",
+    "entities": [
+      {
+        "type": "blockquote",
+        "offset": 0,
+        "length": 4
+      },
+      {
+        "type": "bold",
+        "offset": 0,
+        "length": 4
+      }
+    ]
+  },
+  {
+    "source": ">*abcd*\n",
+    "text": "abcd\n",
+    "entities": [
+      {
+        "type": "blockquote",
+        "offset": 0,
+        "length": 5
+      },
+      {
+        "type": "bold",
+        "offset": 0,
+        "length": 4
+      }
+    ]
+  },
+  {
+    "source": "*>abcd\n*",
+    "text": "abcd\n",
+    "entities": [
+      {
+        "type": "blockquote",
+        "offset": 0,
+        "length": 5
+      },
+      {
+        "type": "bold",
+        "offset": 0,
+        "length": 5
+      }
+    ]
+  },
+  {
+    "source": "abc\n>def\n>def\n\r>ghi2\njkl",
+    "text": "abc\ndef\ndef\n\rghi2\njkl",
+    "entities": [
+      {
+        "type": "blockquote",
+        "offset": 4,
+        "length": 8
+      },
+      {
+        "type": "blockquote",
+        "offset": 13,
+        "length": 5
+      }
+    ]
+  },
+  {
+    "source": ">asd\n>q||e||w||\nasdad",
+    "text": "asd\nqew\nasdad",
+    "entities": [
+      {
+        "type": "expandable_blockquote",
+        "offset": 0,
+        "length": 8
+      },
+      {
+        "type": "spoiler",
+        "offset": 5,
+        "length": 1
+      }
+    ]
+  },
+  {
+    "source": ">asd\n>q||ew||\nasdad",
+    "text": "asd\nqew\nasdad",
+    "entities": [
+      {
+        "type": "blockquote",
+        "offset": 0,
+        "length": 8
+      },
+      {
+        "type": "spoiler",
+        "offset": 5,
+        "length": 2
+      }
+    ]
+  },
+  {
+    "source": ">asd\r\n>q||e||w||\r\nasdad",
+    "text": "asd\r\nqew\r\nasdad",
+    "entities": [
+      {
+        "type": "expandable_blockquote",
+        "offset": 0,
+        "length": 10
+      },
+      {
+        "type": "spoiler",
+        "offset": 6,
+        "length": 1
+      }
+    ]
+  },
+  {
+    "source": ">asd\r\n>q||ew||\r\nasdad",
+    "text": "asd\r\nqew\r\nasdad",
+    "entities": [
+      {
+        "type": "blockquote",
+        "offset": 0,
+        "length": 10
+      },
+      {
+        "type": "spoiler",
+        "offset": 6,
+        "length": 2
+      }
+    ]
+  },
+  {
+    "source": ">asd\r\n>q||e||w||\r\n",
+    "text": "asd\r\nqew\r\n",
+    "entities": [
+      {
+        "type": "expandable_blockquote",
+        "offset": 0,
+        "length": 10
+      },
+      {
+        "type": "spoiler",
+        "offset": 6,
+        "length": 1
+      }
+    ]
+  },
+  {
+    "source": ">asd\r\n>q||ew||\r\n",
+    "text": "asd\r\nqew\r\n",
+    "entities": [
+      {
+        "type": "blockquote",
+        "offset": 0,
+        "length": 10
+      },
+      {
+        "type": "spoiler",
+        "offset": 6,
+        "length": 2
+      }
+    ]
+  },
+  {
+    "source": ">asd\r\n>q||e||w||",
+    "text": "asd\r\nqew",
+    "entities": [
+      {
+        "type": "expandable_blockquote",
+        "offset": 0,
+        "length": 8
+      },
+      {
+        "type": "spoiler",
+        "offset": 6,
+        "length": 1
+      }
+    ]
+  },
+  {
+    "source": ">asd\r\n>q||ew||",
+    "text": "asd\r\nqew",
+    "entities": [
+      {
+        "type": "blockquote",
+        "offset": 0,
+        "length": 8
+      },
+      {
+        "type": "spoiler",
+        "offset": 6,
+        "length": 2
+      }
+    ]
+  },
+  {
+    "source": ">||",
+    "text": "",
+    "entities": []
+  }
+]
