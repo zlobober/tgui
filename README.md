@@ -42,7 +42,30 @@ func send(ctx context.Context, chat tgui.ChatID) error {
 
 `Send` returns successful message references even when a later chunk fails. Buttons
 are attached to the final chunk. `Edit`, `Draft`, `SendDocument`, `GetUpdates`,
-`SetCommands`, `AnswerCallback`, `Typing` and `Me` provide the underlying operations.
+`SetCommands`, `SetCommandsForChatMember`, `AnswerCallback`, `Typing` and `Me` provide the underlying operations.
+
+Call command registration explicitly at application startup so Telegram advertises
+slash commands. `SetCommands(ctx, commands)` sets the default menu;
+`SetCommandsForChatMember(ctx, chatID, userID, commands)` scopes it to one user
+in a group/supergroup. Menus do not install handlers or grant authorization.
+Command names contain lowercase letters, digits and underscores (no leading
+slash or hyphens). Empty lists clear that scope. Telegram clients may cache menus.
+For forum-topic sends, set `Message.ThreadID`; it is preserved on every split chunk.
+`Message.DisableLinkPreview` disables link previews on sends/edits. Incoming messages
+expose `MessageThreadID`, `Date`, and `SenderChat` for application-owned authorization.
+For streaming forum responses, set `ResponseOptions.ThreadID` (and optionally
+`DisableLinkPreview`). Every preview and final chunk stays in that topic. Topic
+responses use edit previews, including when `Mode` is Auto or Draft, because the
+transport's Draft method is unscoped. Finalization edits the preview into the first
+final chunk and sends only remaining chunks; it does not duplicate the preview.
+
+`Call(ctx, method, payload, result)` is a low-level escape hatch for methods without
+named helpers, such as `createForumTopic`, `editForumTopic`, and `getChatMember`.
+It keeps the same redacted, bounded transport and no-retry contract; applications
+must validate payloads and results. Method names are restricted to ASCII letters,
+and methods not explicitly recognized as read-only are treated as uncertain writes
+on transport failure.
+
 Use `WithHTTPClient` and `WithBaseURL` for configuration/testing. HTTP is accepted
 only on loopback; otherwise HTTPS is required. Redirects are disabled.
 
@@ -68,7 +91,8 @@ refs, err := response.Finish(ctx, tgui.Message{Text: final})
 - Modes: `PreviewAuto`, `PreviewDraft`, `PreviewEdit`, `PreviewNone`.
 - Auto prefers `sendMessageDraft`. Only definitive unsupported-method/capability
   errors trigger placeholder-message fallback, not generic failures or rate limits.
-- `Update` retains plain-text progress behavior. `UpdateMarkdown` enables formatting.
+- `Update` retains plain-text progress behavior. `UpdateMarkdown` enables Telegram MarkdownV2 formatting.
+- `UpdateFormatted(Text)` accepts validated native entities from an application-owned renderer (such as CommonMark), copies them, and preserves them through bounded preview cropping. It performs no network I/O. Invalid entity offsets/nesting return an error without replacing the previous preview.
 - On a throttled `Flush`, the library tries the complete Markdown source, then
   removes trailing Unicode characters until it finds the longest parseable prefix.
   Search is bounded to 512 candidates and 64 KiB source. An unmatched final

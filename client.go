@@ -75,7 +75,14 @@ func NewClient(token string, opts ...ClientOption) (*Client, error) {
 	return &Client{endpoint: strings.TrimRight(u.String(), "/") + "/bot" + token + "/", http: &hc}, nil
 }
 
-func writeMethod(method string) bool { return method != "getMe" && method != "getUpdates" }
+func writeMethod(method string) bool {
+	switch method {
+	case "getMe", "getUpdates", "getChat", "getChatMember", "getWebhookInfo":
+		return false
+	default:
+		return true // Unknown methods are conservatively treated as writes.
+	}
+}
 
 func (c *Client) request(ctx context.Context, method, contentType string, body io.Reader, result any) error {
 	if err := ctx.Err(); err != nil {
@@ -134,6 +141,9 @@ func (c *Client) request(ctx context.Context, method, contentType string, body i
 		if !*envelope.OK && apiErr.Code == 400 && (resp.StatusCode == 200 || resp.StatusCode == 400) && method == "editMessageText" {
 			apiErr.NotModified = desc == "bad request: message is not modified" || strings.HasPrefix(desc, "bad request: message is not modified: ")
 		}
+		if !*envelope.OK && apiErr.Code == 400 && (resp.StatusCode == 200 || resp.StatusCode == 400) && method == "editForumTopic" {
+			apiErr.NotModified = desc == "bad request: topic_not_modified"
+		}
 		if !*envelope.OK && method == "sendMessageDraft" && (apiErr.Code == 400 || apiErr.Code == 404) && (resp.StatusCode == 200 || resp.StatusCode == 400 || resp.StatusCode == 404) {
 			switch desc {
 			case "not found":
@@ -149,6 +159,23 @@ func (c *Client) request(ctx context.Context, method, contentType string, body i
 	}
 	return nil
 }
+
+// Call invokes a Bot API method not covered by the typed helpers. It uses the
+// same bounded, redacted transport and never retries. The caller owns payload
+// validation and result validation; result must be a pointer or nil. Unknown
+// methods are conservatively classified as writes for delivery uncertainty.
+func (c *Client) Call(ctx context.Context, method string, payload, result any) error {
+	if len(method) == 0 || len(method) > 128 {
+		return errors.New("telegram: invalid method")
+	}
+	for _, r := range method {
+		if !(r >= 'a' && r <= 'z' || r >= 'A' && r <= 'Z') {
+			return errors.New("telegram: invalid method")
+		}
+	}
+	return c.json(ctx, method, payload, result)
+}
+
 func (c *Client) json(ctx context.Context, method string, payload, result any) error {
 	data, err := json.Marshal(payload)
 	if err != nil {
@@ -176,6 +203,20 @@ func (c *Client) GetUpdates(ctx context.Context, offset int64, wait time.Duratio
 	return out, err
 }
 func (c *Client) SetCommands(ctx context.Context, commands []Command) error {
+	return c.setCommands(ctx, commands, nil)
+}
+
+// SetCommandsForChatMember advertises commands to one user in a group or
+// supergroup. Applications must still authorize commands and call registration
+// explicitly; publishing a menu does not install handlers or grant permissions.
+func (c *Client) SetCommandsForChatMember(ctx context.Context, chatID int64, userID int64, commands []Command) error {
+	if chatID >= 0 || userID <= 0 {
+		return errors.New("telegram: invalid chat-member command scope")
+	}
+	return c.setCommands(ctx, commands, map[string]any{"type": "chat_member", "chat_id": chatID, "user_id": userID})
+}
+
+func (c *Client) setCommands(ctx context.Context, commands []Command, scope any) error {
 	if len(commands) > 100 {
 		return errors.New("telegram: too many commands")
 	}
@@ -192,7 +233,11 @@ func (c *Client) SetCommands(ctx context.Context, commands []Command) error {
 	if commands == nil {
 		commands = []Command{}
 	}
-	return c.boolean(ctx, "setMyCommands", map[string]any{"commands": commands})
+	payload := map[string]any{"commands": commands}
+	if scope != nil {
+		payload["scope"] = scope
+	}
+	return c.boolean(ctx, "setMyCommands", payload)
 }
 func validString(s string, lo, hi int) bool {
 	return len(s) <= hi*4 && utf8.ValidString(s) && UTF16Len(s) >= lo && UTF16Len(s) <= hi
@@ -262,7 +307,7 @@ func (c *Client) sendResult(ctx context.Context, method string, payload any, cha
 // Send makes no retries. If a later chunk fails, refs contains only confirmed
 // earlier sends; an uncertain failed chunk must not be blindly resent.
 func (c *Client) Send(ctx context.Context, chat ChatID, msg Message) ([]MessageRef, error) {
-	if chat == 0 || msg.Text.Content == "" {
+	if chat == 0 || msg.ThreadID < 0 || msg.Text.Content == "" {
 		return nil, errors.New("telegram: invalid message")
 	}
 	chunks, err := Split(msg.Text, sendTextUnits)
@@ -276,6 +321,12 @@ func (c *Client) Send(ctx context.Context, chat ChatID, msg Message) ([]MessageR
 	refs := make([]MessageRef, 0, len(chunks))
 	for i, chunk := range chunks {
 		p := textPayload(chat, chunk)
+		if msg.ThreadID != 0 {
+			p["message_thread_id"] = msg.ThreadID
+		}
+		if msg.DisableLinkPreview {
+			p["link_preview_options"] = map[string]bool{"is_disabled": true}
+		}
 		if i == len(chunks)-1 && len(msg.Keyboard) > 0 {
 			p["reply_markup"] = keyboard
 		}
@@ -301,6 +352,9 @@ func (c *Client) Edit(ctx context.Context, ref MessageRef, msg Message) error {
 	p := textPayload(ref.ChatID, msg.Text)
 	p["message_id"] = ref.MessageID
 	p["reply_markup"] = keyboard
+	if msg.DisableLinkPreview {
+		p["link_preview_options"] = map[string]bool{"is_disabled": true}
+	}
 	_, err = c.sendResult(ctx, "editMessageText", p, ref.ChatID)
 	return err
 }

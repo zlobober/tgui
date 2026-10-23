@@ -23,6 +23,9 @@ type MessageRef struct {
 type Message struct {
 	Text     Text
 	Keyboard [][]Button
+	// ThreadID targets a forum topic. Zero uses the chat's default destination.
+	ThreadID           int64
+	DisableLinkPreview bool
 }
 type Button struct {
 	Label string
@@ -47,10 +50,13 @@ type Chat struct {
 	Type string `json:"type"`
 }
 type IncomingMessage struct {
-	MessageID int64  `json:"message_id"`
-	From      *User  `json:"from"`
-	Chat      Chat   `json:"chat"`
-	Text      string `json:"text"`
+	MessageID       int64  `json:"message_id"`
+	From            *User  `json:"from"`
+	Chat            Chat   `json:"chat"`
+	Text            string `json:"text"`
+	MessageThreadID int64  `json:"message_thread_id"`
+	Date            int64  `json:"date"`
+	SenderChat      *Chat  `json:"sender_chat"`
 }
 type CallbackQuery struct {
 	ID      string           `json:"id"`

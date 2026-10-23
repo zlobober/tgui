@@ -27,6 +27,10 @@ const (
 
 type ResponseOptions struct {
 	Mode PreviewMode
+	// ThreadID scopes every send to a forum topic. Topic previews use edits,
+	// never the unscoped Draft API, including when Mode is Auto or Draft.
+	ThreadID           int64
+	DisableLinkPreview bool
 	// MinInterval is the minimum interval between preview attempts. Zero uses one second.
 	MinInterval time.Duration
 	// MaxPreviewUnits bounds previews in UTF-16 units. Zero uses the transport chunk limit.
@@ -50,6 +54,7 @@ type Response struct {
 	draftID     int64
 	mode        PreviewMode
 	desired     Text
+	formatted   bool
 	markdown    *string
 	last        Text
 	hasLast     bool
@@ -61,6 +66,9 @@ type Response struct {
 }
 
 func NewResponse(transport ResponseTransport, chat ChatID, opts ResponseOptions) *Response {
+	if opts.ThreadID != 0 && (opts.Mode == PreviewAuto || opts.Mode == PreviewDraft) {
+		opts.Mode = PreviewEdit
+	}
 	if opts.MinInterval == 0 {
 		opts.MinInterval = time.Second
 	}
@@ -82,7 +90,26 @@ func (r *Response) Update(text Text) {
 	}
 	// Previews deliberately omit formatting; final messages retain their entities.
 	r.desired = Plain(text.Content)
+	r.formatted = false
 	r.markdown = nil
+}
+
+// UpdateFormatted replaces a cumulative preview with validated native entities.
+// It makes no network calls and copies entities so callers retain ownership.
+// Use this for formats other than Telegram MarkdownV2 (e.g. CommonMark renderers).
+func (r *Response) UpdateFormatted(text Text) error {
+	if err := validateText(text); err != nil {
+		return err
+	}
+	r.mu.Lock()
+	defer r.mu.Unlock()
+	if r.done || r.terminal != nil {
+		return nil
+	}
+	r.desired = Text{Content: text.Content, Entities: append([]Entity(nil), text.Entities...)}
+	r.formatted = true
+	r.markdown = nil
+	return nil
 }
 
 // UpdateMarkdown replaces cumulative Markdown source, not a delta. Parsing is
@@ -168,6 +195,8 @@ func (r *Response) Flush(ctx context.Context) error {
 			r.next = r.now().Add(r.opts.MinInterval)
 			return nil // Keep the previous preview instead of exposing raw markup.
 		}
+	} else if r.formatted {
+		text = formattedPreviewTail(r.desired, r.opts.MaxPreviewUnits)
 	} else {
 		text = Plain(previewTail(r.desired.Content, r.opts.MaxPreviewUnits))
 	}
@@ -196,7 +225,7 @@ func (r *Response) Flush(ctx context.Context) error {
 	var err error
 	if r.placeholder == nil {
 		var refs []MessageRef
-		refs, err = r.transport.Send(ctx, r.chat, Message{Text: text})
+		refs, err = r.transport.Send(ctx, r.chat, Message{Text: text, ThreadID: r.opts.ThreadID, DisableLinkPreview: r.opts.DisableLinkPreview})
 		if err != nil {
 			r.rateLimit(err)
 			if len(refs) > 0 || !definiteRejection(err) {
@@ -210,7 +239,7 @@ func (r *Response) Flush(ctx context.Context) error {
 		ref := refs[0]
 		r.placeholder = &ref
 	} else {
-		err = editResult(r.transport.Edit(ctx, *r.placeholder, Message{Text: text}))
+		err = editResult(r.transport.Edit(ctx, *r.placeholder, Message{Text: text, ThreadID: r.opts.ThreadID, DisableLinkPreview: r.opts.DisableLinkPreview}))
 	}
 	if err != nil {
 		r.rateLimit(err)
@@ -236,6 +265,12 @@ func (r *Response) Finish(ctx context.Context, message Message) ([]MessageRef, e
 	if err := ctx.Err(); err != nil {
 		return nil, err
 	}
+	if r.opts.ThreadID != 0 {
+		message.ThreadID = r.opts.ThreadID
+	}
+	if r.opts.DisableLinkPreview {
+		message.DisableLinkPreview = true
+	}
 	chunks, err := Split(message.Text, sendTextUnits)
 	if err != nil {
 		return nil, err
@@ -250,7 +285,7 @@ func (r *Response) Finish(ctx context.Context, message Message) ([]MessageRef, e
 	if r.placeholder == nil {
 		refs, err = r.transport.Send(ctx, r.chat, message)
 	} else {
-		first := Message{Text: chunks[0]}
+		first := Message{Text: chunks[0], ThreadID: message.ThreadID, DisableLinkPreview: message.DisableLinkPreview}
 		if len(chunks) == 1 {
 			first.Keyboard = message.Keyboard
 		}
@@ -258,7 +293,7 @@ func (r *Response) Finish(ctx context.Context, message Message) ([]MessageRef, e
 		if err == nil {
 			refs = append(refs, *r.placeholder)
 			for i := 1; i < len(chunks); i++ {
-				part := Message{Text: chunks[i]}
+				part := Message{Text: chunks[i], ThreadID: message.ThreadID, DisableLinkPreview: message.DisableLinkPreview}
 				if i == len(chunks)-1 {
 					part.Keyboard = message.Keyboard
 				}
